@@ -7,6 +7,9 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 require_once ROOT . '/vendor/autoload.php'; // Autoload files using Composer autoload
 $configutation = Application\Config\Configurator::config();
 
+//bootstrapp
+\Application\Bootstrap::go();
+
 //triger init event
 Mgr\Event\Event::trigger("init");
 
