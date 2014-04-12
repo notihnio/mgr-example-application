@@ -1,0 +1,19 @@
+{
+    "name": "vendor/mgrframework",
+    "description": "Description of project mgrframework.",
+    "authors": [
+        {
+            "name": "nothnio",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "notihnio/mgr": "dev-development"
+    },
+      "autoload": {
+        "psr-0": {"Application\\": "."}
+    }
+}
