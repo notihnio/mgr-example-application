@@ -1,15 +1,13 @@
 <?php
-
 /**
-  @author Panagiotis Mastrandrikos <pmstrandrikos@gmail.com>  https://github.com/notihnio
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
+    @author Panagiotis Mastrandrikos <pmstrandrikos@gmail.com>  https://github.com/notihnio
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
  */
-
 namespace Mgr\Controller;
 
 /**
@@ -73,16 +71,13 @@ class Controller {
     }
 
     public function __destruct() {
-        try {
-            if (isset($this->layout->__Name)) {
-                $this->layout->__layoutFilePath = dirname(dirname($this->viewFolderPath)) . DIRECTORY_SEPARATOR . "Layout" . DIRECTORY_SEPARATOR . ucfirst($this->layout->__Name);
-                $this->layout->content = $this->view->render();
-                $this->layout->render();
-            } else {
-                echo $this->view->render();
-            }
-        } catch (\Mgr\Exception $error) {
-            return;
+
+        if (isset($this->layout->__Name)) {
+            $this->layout->__layoutFilePath = dirname(dirname($this->viewFolderPath)) . DIRECTORY_SEPARATOR . "Layout" . DIRECTORY_SEPARATOR . ucfirst($this->layout->__Name);
+            $this->layout->content = $this->view->render();
+            $this->layout->render();
+        } else {
+            echo $this->view->render();
         }
     }
 

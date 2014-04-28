@@ -3,23 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ea01f89411140eff7cf31d8f2c19c147",
+    "hash": "4681abe2cfe5bd1ffcd2c487fa0d84f0",
     "packages": [
-
-    ],
-    "packages-dev": [
         {
             "name": "notihnio/mgr",
-            "version": "dev-development",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/notihnio/mgr.git",
-                "reference": "8e42f816a4661a20b9dc56d06582f8b37fed58ae"
+                "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notihnio/mgr/zipball/8e42f816a4661a20b9dc56d06582f8b37fed58ae",
-                "reference": "8e42f816a4661a20b9dc56d06582f8b37fed58ae",
+                "url": "https://api.github.com/repos/notihnio/mgr/zipball/7d8a3c1455998625d2d64e651ecd86efa4046a39",
+                "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39",
                 "shasum": ""
             },
             "require": {
@@ -35,20 +32,25 @@
             "authors": [
                 {
                     "name": "Panagiotis (Notis) Mastrandrikos",
-                    "email": "pmastranrdikos@gmail.com"
+                    "email": "pmastranrdikos@gmail.com",
+                    "homepage": "https://github.com/notihnio",
+                    "role": "Developer"
                 }
             ],
             "description": "Mgr is an open source light framework.",
-            "time": "2014-04-10 10:24:29"
+            "time": "2014-04-28 08:36:03"
         }
+    ],
+    "packages-dev": [
+
     ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "notihnio/mgr": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],

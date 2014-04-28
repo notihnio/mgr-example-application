@@ -1,25 +1,25 @@
 [
     {
         "name": "notihnio/mgr",
-        "version": "dev-development",
-        "version_normalized": "dev-development",
+        "version": "1.1",
+        "version_normalized": "1.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/notihnio/mgr.git",
-            "reference": "8e42f816a4661a20b9dc56d06582f8b37fed58ae"
+            "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/notihnio/mgr/zipball/8e42f816a4661a20b9dc56d06582f8b37fed58ae",
-            "reference": "8e42f816a4661a20b9dc56d06582f8b37fed58ae",
+            "url": "https://api.github.com/repos/notihnio/mgr/zipball/7d8a3c1455998625d2d64e651ecd86efa4046a39",
+            "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2014-04-10 10:24:29",
+        "time": "2014-04-28 08:36:03",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Mgr": "src/"
@@ -29,7 +29,9 @@
         "authors": [
             {
                 "name": "Panagiotis (Notis) Mastrandrikos",
-                "email": "pmastranrdikos@gmail.com"
+                "email": "pmastranrdikos@gmail.com",
+                "homepage": "https://github.com/notihnio",
+                "role": "Developer"
             }
         ],
         "description": "Mgr is an open source light framework."

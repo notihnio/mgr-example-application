@@ -8,10 +8,7 @@
         }
     ],
     "require": {
-
-    },
-    "require-dev": {
-        "notihnio/mgr": "dev-development"
+       "notihnio/mgr": "1.1"
     },
       "autoload": {
         "psr-0": {"Application\\": "."}
