@@ -3,32 +3,35 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4681abe2cfe5bd1ffcd2c487fa0d84f0",
+    "hash": "7953b53147efa86105a966f3e3f62535",
     "packages": [
         {
             "name": "notihnio/mgr",
-            "version": "1.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/notihnio/mgr.git",
-                "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39"
+                "reference": "fdff52ab932d80fc5d21eeebd45e0dfb590147eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notihnio/mgr/zipball/7d8a3c1455998625d2d64e651ecd86efa4046a39",
-                "reference": "7d8a3c1455998625d2d64e651ecd86efa4046a39",
+                "url": "https://api.github.com/repos/notihnio/mgr/zipball/fdff52ab932d80fc5d21eeebd45e0dfb590147eb",
+                "reference": "fdff52ab932d80fc5d21eeebd45e0dfb590147eb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "type": "library",
+            "type": "mvc-framework",
             "autoload": {
                 "psr-0": {
                     "Mgr": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU-GPLv3"
+            ],
             "authors": [
                 {
                     "name": "Panagiotis (Notis) Mastrandrikos",
@@ -37,8 +40,20 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Mgr is an open source light framework.",
-            "time": "2014-04-28 08:36:03"
+            "description": "Mgr is an open source light PHP Framwork framework.",
+            "keywords": [
+                "framework",
+                "greece",
+                "light",
+                "lightweight",
+                "mastrandrikos",
+                "megara",
+                "mvc",
+                "notihnio",
+                "notis",
+                "php"
+            ],
+            "time": "2014-05-06 11:56:56"
         }
     ],
     "packages-dev": [
