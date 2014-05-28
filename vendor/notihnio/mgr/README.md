@@ -1,6 +1,6 @@
 mgr MVC PHP Framework
 ===
-Mgr framework is lightweight MVC PHP Framework which includes basic and commonly used components.
+Mgr framework is a lightweight MVC PHP Framework which includes basic and commonly used components.
 
 
 You can get it with composer  
@@ -26,3 +26,4 @@ https://github.com/notihnio/mgr-example-application
 
 
 
+<b>What's new:</b> version 1.3.0 normal routing supports deeper paths for static part! example: <i>/article/edit/:articleid</i>

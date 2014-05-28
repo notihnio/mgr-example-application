@@ -19,7 +19,7 @@ class Configurator {
                 "cache" => "0", // 0|memcache|APC|filesystem
                 "root" => ROOT,
                 "defaults" => array(
-                    "module" => "admin",
+                    "module" => "index",
                     "controller" => "index",
                     "view" => "index"
                 )

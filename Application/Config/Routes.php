@@ -15,11 +15,20 @@ class Routes {
         return array(
             array(
                 "type" => "normal",
-                "route" => "/article/:test/*",
+                "route" => "/articlee/theedit/:id",
                 "controller" => "Articles",
-                "action" =>"Index",
-                "module" =>"Index",  
-            )
+                "action" => "Edit",
+                "module" => "Index",
+            ),
+            array(
+                "type" => "normal",
+                "route" => "/articlee/:test",
+                "controller" => "Articles",
+                "action" => "Index",
+                "module" => "Index",
+            ),
+            
+            
         );
     }
 

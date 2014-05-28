@@ -1,22 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "7953b53147efa86105a966f3e3f62535",
+    "hash": "18159b0d6a02b8e126ddfd9fd252d091",
     "packages": [
         {
             "name": "notihnio/mgr",
-            "version": "1.2.2",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/notihnio/mgr.git",
-                "reference": "fdff52ab932d80fc5d21eeebd45e0dfb590147eb"
+                "reference": "fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notihnio/mgr/zipball/fdff52ab932d80fc5d21eeebd45e0dfb590147eb",
-                "reference": "fdff52ab932d80fc5d21eeebd45e0dfb590147eb",
+                "url": "https://api.github.com/repos/notihnio/mgr/zipball/fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462",
+                "reference": "fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +54,7 @@
                 "notis",
                 "php"
             ],
-            "time": "2014-05-06 11:56:56"
+            "time": "2014-05-28 09:35:51"
         }
     ],
     "packages-dev": [

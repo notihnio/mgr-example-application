@@ -11,4 +11,12 @@ class ArticlesController extends \Mgr\Controller\Controller {
         
     }
     
+     public function EditAction(){ 
+        $this->layout->__Name="default";
+        $this->layout->var= 'a layout var ';
+        $this->view->name = "EditAction";
+        
+    }
+    
+     
 }
