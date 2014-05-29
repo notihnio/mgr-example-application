@@ -20,7 +20,7 @@ class IndexController extends \Mgr\Controller\Controller {
     
     public function CacheAction() { 
         unset($this->layout->__Name);
-        $cache = new \Mgr\Cache\Cache("Memcache", 10, "127.0.0.1", 11211);
+        $cache = new \Mgr\Cache\Cache("XCache", 10);
        
         if ($cache->exists("date")) {
             die("date=" . $cache->get("date"));
