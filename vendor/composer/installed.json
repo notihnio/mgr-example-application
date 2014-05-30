@@ -1,23 +1,23 @@
 [
     {
         "name": "notihnio/mgr",
-        "version": "1.4.0",
-        "version_normalized": "1.4.0.0",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/notihnio/mgr.git",
-            "reference": "fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462"
+            "reference": "63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/notihnio/mgr/zipball/fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462",
-            "reference": "fd74e34ea7dd87b17e0b5fa937c3e3ec15bf4462",
+            "url": "https://api.github.com/repos/notihnio/mgr/zipball/63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc",
+            "reference": "63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2014-05-28 09:35:51",
+        "time": "2014-05-30 07:52:50",
         "type": "mvc-framework",
         "installation-source": "dist",
         "autoload": {

@@ -15,7 +15,7 @@ class Routes {
         return array(
             array(
                 "type" => "normal",
-                "route" => "/articlee/theedit/:id",
+                "route" => "/articlee/theedit/:id/*",
                 "controller" => "Articles",
                 "action" => "Edit",
                 "module" => "Index",
