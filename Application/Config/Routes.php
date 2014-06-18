@@ -27,6 +27,13 @@ class Routes {
                 "action" => "Index",
                 "module" => "Index",
             ),
+             array(
+                "type" => "normal",
+                "route" => "/db/*",
+                "controller" => "Index",
+                "action" => "Db",
+                "module" => "Index",
+            ),
             
             
         );
