@@ -16,6 +16,8 @@ class Article extends \Mgr\DB\MySQL\Mapper\Mapper {
     
     public $date = "@date";
     
-    public $category = "@int > \Application\Db\Mapper\Category->id ";
+    public $category = "@int(11) >> \Application\Module\Index\Model\DB\Schema\Category->id >> ON UPDATE CASCADE ON DELETE RESTRICT";
+    
+    public $__engine = "INNODB";
 
 }

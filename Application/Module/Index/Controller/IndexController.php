@@ -30,7 +30,7 @@ class IndexController extends \Mgr\Controller\Controller {
             die();
         }
         
-        $article = new \Application\Module\Index\Model\DB\Schema\Article($db);
+        $article = new \Application\Module\Index\Model\DB\Schema\Article($db, false);
     }
 
 }
