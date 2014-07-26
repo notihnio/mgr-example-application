@@ -117,7 +117,7 @@ class Mapper {
         $sql.=" ) ENGINE={$properties["__engine"]};";
 
         //get ORM object properties exept pdo
-
+        $sql=preg_replace("/,\s+\)/", " ) ", $sql);
         echo(var_dump($sql));
     }
 
@@ -152,6 +152,15 @@ class Mapper {
             return $returnScript;
         }
 
+        //check for indexes
+        if (preg_match("/^@.((?!>>).)*$/", $script)) {
+            $returnScript["propertySql"] = $name . " " . trim(str_replace("@", "", $script)) . ", ";
+            $returnScript["constraitsBuffer"] = "INDEX({$name}), ";
+            return $returnScript;
+        }
+        
+        
+        
         //check for foreign keys
         if (preg_match("/^@.*>>.*$/", $script)) {
 
@@ -171,7 +180,7 @@ class Mapper {
             $referenceClass = new $foreignKeyClassName($this->pdo, false);
 
 
-            $returnScript["constraitsBuffer"] = "FOREIGN KEY ({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
+            $returnScript["constraitsBuffer"] = "INDEX({$name}) FOREIGN KEY({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
             return $returnScript;
         }
         $returnScript["constraitsBuffer"] = "";
