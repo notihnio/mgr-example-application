@@ -138,7 +138,7 @@ class Mapper {
 
         // if propery starts width __ do nothing
         
-        if (preg_match("/^#__.*/", $name)) {
+        if (preg_match("/^__.*/", $name)) { 
             $returnScript["constraitsBuffer"] = "";
             $returnScript["propertySql"] = "";
             return $returnScript;
@@ -180,11 +180,13 @@ class Mapper {
             $referenceClass = new $foreignKeyClassName($this->pdo, false);
 
 
-            $returnScript["constraitsBuffer"] = "INDEX({$name}) FOREIGN KEY({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
+            $returnScript["constraitsBuffer"] = "INDEX({$name}), FOREIGN KEY({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
             return $returnScript;
         }
+        
+
         $returnScript["constraitsBuffer"] = "";
-        $returnScript["propertySql"] = "";
+        $returnScript["propertySql"] = $name . " " . trim($script) . ", ";
         return $returnScript;
     }
 
