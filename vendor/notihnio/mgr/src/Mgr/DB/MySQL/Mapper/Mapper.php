@@ -49,7 +49,6 @@ class Mapper {
      * @name getTableExistingColums
      * @description returns table existing colums
      * 
-     * @param string $tableName - the table name
      * @return array existingColums
      */
     private function getTableExistingColums() {
@@ -61,6 +60,37 @@ class Mapper {
                INFORMATION_SCHEMA.COLUMNS
             WHERE 
               TABLE_NAME LIKE :table
+              AND table_schema = :databaseName";
+
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindParam(':table', $this->getTableName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->bindParam(':databaseName', $this->pdo->getDbName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->execute();
+
+            $result = $statement->fetchAll();
+            return $result;
+        } catch (PDOException $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), $Exception->getCode());
+        }
+    }
+
+    /**
+     * @name getTableForeignKeys
+     * @description returns table foreign keys
+     * 
+     * @return array existingColums
+     */
+    private function getTableForeignKeys() {
+        try {
+            $sql = " 
+            SELECT
+               *
+            FROM
+               INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+            WHERE 
+              TABLE_NAME LIKE :table
+              AND REFERENCED_TABLE_NAME IS NOT NULL 
+              AND REFERENCED_COLUMN_NAME IS NOT NULL 
               AND table_schema = :databaseName";
 
             $statement = $this->pdo->prepare($sql);
@@ -96,11 +126,11 @@ class Mapper {
      */
     private function createTable() {
 
-        //  save constraits primiry keys etc to append at the bottom of th script
+        //  save constraits, primary keys etc... to append at the bottom of th script
         $constraits = "";
         $sql = "CREATE TABLE {$this->getTableName()}( ";
         $properties = $this->getProperties();
-        
+
         // add class properties
         foreach ($properties as $propertyName => $propertyScript) {
             $propArray = $this->convertPropertyToSql($propertyName, $propertyScript);
@@ -117,7 +147,7 @@ class Mapper {
         $sql.=" ) ENGINE={$properties["__engine"]};";
 
         //get ORM object properties exept pdo
-        $sql=preg_replace("/,\s+\)/", " ) ", $sql);
+        $sql = preg_replace("/,\s+\)/", " ) ", $sql);
         echo(var_dump($sql));
     }
 
@@ -129,16 +159,68 @@ class Mapper {
      * @return string sqlCode
      */
     private function updateTable() {
-        
+        //  save constraits, primary keys etc... to append at the bottom of th script
+        $constraits = "";
+        $sql = "ALTER TABLE {$this->getTableName()} ";
+
+        //get class properties
+        $properties = $this->getProperties();
+
+        //get table existing colums
+        $tableExistingColumnes = $this->getTableExistingColums();
+
+        foreach ($tableExistingColumnes as $column) {
+
+            // if field exists on table
+            if (array_key_exists($column["COLUMN_NAME"], $properties)) {
+                $propArray = $this->convertPropertyToSql($column["COLUMN_NAME"], $properties[$column["COLUMN_NAME"]]);
+
+                //add the propery sql to alter table script
+                $sql.= "MODIFY " . $propArray["propertySql"];
+
+                // add posible constraints example primary key etc to buffer to append at the end of the script
+                $constraits.=$propArray["constraitsBuffer"];
+                unset($properties[$column["COLUMN_NAME"]]);
+            } else {
+
+                // think later to auto delete field than not include in class
+                // this goes in this if
+            }
+        }
+
+        foreach ($properties as $propertyName => $propertyScript) {
+            $propArray = $this->convertPropertyToSql($propertyName, $propertyScript);
+
+            //add the propery sql to alter table script
+            $sql.= "ADD " . $propArray["propertySql"];
+
+            // add posible constraints example primary key etc to buffer to append at the end of the script
+            $constraits.=$propArray["constraitsBuffer"];
+            unset($properties[$column["COLUMN_NAME"]]);
+        }
+
+        $sql.=$constraits;
+        $sql.=" ENGINE={$properties["__engine"]};";
+        $sql = preg_replace("/,\s+ENGINE/", " ENGINE ", $sql);
+        var_dump($sql);
     }
 
+    /**
+     * @name convertPropertyToSql
+     * @description converts class to sql script
+     * 
+     * @param type $name
+     * @param type $script
+     * @param type $mode
+     * @return string
+     */
     private function convertPropertyToSql($name, $script) {
         $returnScript = array();
         $name = str_replace("$", "", $name);
 
         // if propery starts width __ do nothing
-        
-        if (preg_match("/^__.*/", $name)) { 
+
+        if (preg_match("/^__.*/", $name)) {
             $returnScript["constraitsBuffer"] = "";
             $returnScript["propertySql"] = "";
             return $returnScript;
@@ -158,9 +240,9 @@ class Mapper {
             $returnScript["constraitsBuffer"] = "INDEX({$name}), ";
             return $returnScript;
         }
-        
-        
-        
+
+
+
         //check for foreign keys
         if (preg_match("/^@.*>>.*$/", $script)) {
 
@@ -183,7 +265,7 @@ class Mapper {
             $returnScript["constraitsBuffer"] = "INDEX({$name}), FOREIGN KEY({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
             return $returnScript;
         }
-        
+
 
         $returnScript["constraitsBuffer"] = "";
         $returnScript["propertySql"] = $name . " " . trim($script) . ", ";
@@ -200,8 +282,8 @@ class Mapper {
     public function updateStructure() {
 
 
-        $this->createTable();
-
+        //$this->createTable();
+        $this->updateTable();
 
 
         $slq = "      
@@ -211,9 +293,9 @@ class Mapper {
                                    WHERE table_schema = '{$this->pdo->getDbName()}'
                                      AND table_name LIKE '{$this->getTableName()}')
 
-                        -- If exists, retreive columns information from that table
+             -- If exists, retreive columns information from that table
                         THEN
-                           {$this->updateTable()}
+                          
                         ELSE
                            create table
 
