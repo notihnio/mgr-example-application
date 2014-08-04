@@ -26,9 +26,13 @@ class Mapper {
      * 
      * */
     public $pdo;
+    public $___recursive;
+    public $___deleteColumns;
 
-    public function __construct(\Mgr\DB\PDO\MgrPDO $pdo, $lock = true) {
+    public function __construct(\Mgr\DB\PDO\MgrPDO $pdo, $lock = true, $recursive = false, $allowDeleteColums=false) {
         $this->pdo = $pdo;
+        $this->___recursive = $recursive;
+        $this->___deleteColumns = $allowDeleteColums;
 
         if (!$lock) {
             $this->updateStructure();
@@ -106,6 +110,35 @@ class Mapper {
     }
 
     /**
+     * @name getTableIndexes
+     * @description returns table indexes
+     * 
+     * @return array existingColums
+     */
+    private function getTableIndexes() {
+        try {
+            $sql = "SELECT 
+                     DISTINCT INDEX_NAME
+                  FROM 
+                     INFORMATION_SCHEMA.STATISTICS
+                  WHERE 
+                    TABLE_SCHEMA =  :databaseName
+                    AND TABLE_NAME =  :table
+                  ";
+
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindParam(':table', $this->getTableName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->bindParam(':databaseName', $this->pdo->getDbName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->execute();
+
+            $result = $statement->fetchAll();
+            return $result;
+        } catch (PDOException $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), $Exception->getCode());
+        }
+    }
+
+    /**
      * @name getProperties
      * @description returns running orm class properties
      * 
@@ -114,6 +147,9 @@ class Mapper {
     private function getProperties() {
         $properties = get_object_vars($this);
         unset($properties["pdo"]);
+        unset($properties["___recursive"]);
+        unset($properties["___deleteColumns"]);
+        
         return $properties;
     }
 
@@ -148,7 +184,15 @@ class Mapper {
 
         //get ORM object properties exept pdo
         $sql = preg_replace("/,\s+\)/", " ) ", $sql);
-        echo(var_dump($sql));
+
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute();
+            return true;
+        } catch (PDOException $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), $Exception->getCode());
+            return false;
+        }
     }
 
     /**
@@ -169,6 +213,20 @@ class Mapper {
         //get table existing colums
         $tableExistingColumnes = $this->getTableExistingColums();
 
+        //drop old foreign keys
+        $tableForeignKeys = $this->getTableForeignKeys();
+        $sql.=" DROP PRIMARY KEY, ";
+        foreach ($tableForeignKeys as $foreignKey) {
+            $sql.= " drop foreign key {$foreignKey["CONSTRAINT_NAME"]}, ";
+        }
+
+        //drop old table indexes
+        $tableIndexes = $this->getTableIndexes();
+        foreach ($tableIndexes as $index) {
+            if ($index["INDEX_NAME"] != "PRIMARY")
+                $sql.= " drop INDEX {$index["INDEX_NAME"]}, ";
+        }
+
         foreach ($tableExistingColumnes as $column) {
 
             // if field exists on table
@@ -179,12 +237,15 @@ class Mapper {
                 $sql.= "MODIFY " . $propArray["propertySql"];
 
                 // add posible constraints example primary key etc to buffer to append at the end of the script
+                $propArray["constraitsBuffer"] = str_replace("INDEX", "ADD INDEX", $propArray["constraitsBuffer"]);
+                $propArray["constraitsBuffer"] = str_replace("FOREIGN KEY", "ADD FOREIGN KEY", $propArray["constraitsBuffer"]);
                 $constraits.=$propArray["constraitsBuffer"];
                 unset($properties[$column["COLUMN_NAME"]]);
             } else {
-
-                // think later to auto delete field than not include in class
-                // this goes in this if
+                //delete field form 
+                
+                if($this->___deleteColumns)
+                   $sql.= "DROP " . $column["COLUMN_NAME"].", ";
             }
         }
 
@@ -195,23 +256,38 @@ class Mapper {
             $sql.= "ADD " . $propArray["propertySql"];
 
             // add posible constraints example primary key etc to buffer to append at the end of the script
-            $constraits.=$propArray["constraitsBuffer"];
+            $propArray["constraitsBuffer"] = str_replace("INDEX", "ADD INDEX", $propArray["constraitsBuffer"]);
+            $propArray["constraitsBuffer"] = str_replace("FOREIGN KEY", "ADD FOREIGN KEY", $propArray["constraitsBuffer"]);
+
+
+            $constraits.= $propArray["constraitsBuffer"];
             unset($properties[$column["COLUMN_NAME"]]);
         }
 
         $sql.=$constraits;
-        $sql.=" ENGINE={$properties["__engine"]};";
-        $sql = preg_replace("/,\s+ENGINE/", " ENGINE ", $sql);
-        var_dump($sql);
+
+        //think for engine - to be removed
+        $sql.=" ENGINE;";
+        $sql = preg_replace("/,\s+ENGINE/", " ", $sql);
+
+        //$sql.=" ENGINE={$properties["__engine"]};";
+        // $sql = preg_replace("/,\s+ENGINE/", " ENGINE ", $sql);
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute();
+            return true;
+        } catch (PDOException $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), $Exception->getCode());
+            return false;
+        }
     }
 
     /**
      * @name convertPropertyToSql
      * @description converts class to sql script
      * 
-     * @param type $name
-     * @param type $script
-     * @param type $mode
+     * @param type $name - the column name
+     * @param type $script - the volumn sql
      * @return string
      */
     private function convertPropertyToSql($name, $script) {
@@ -258,8 +334,8 @@ class Mapper {
             $foreignKeyOnDeleteOnUpdate = trim($explode[2]);
 
 
-            //get the reference table name
-            $referenceClass = new $foreignKeyClassName($this->pdo, false);
+            //get the reference table name and execute update stracture if ___recursive allowed
+            $referenceClass = new $foreignKeyClassName($this->pdo, ($this->___recursive) ? false : true);
 
 
             $returnScript["constraitsBuffer"] = "INDEX({$name}), FOREIGN KEY({$name}) REFERENCES {$referenceClass->getTableName()}({$foreignKeyClassField}) {$foreignKeyOnDeleteOnUpdate}, ";
@@ -281,30 +357,70 @@ class Mapper {
      */
     public function updateStructure() {
 
+        //check if table exists
 
-        //$this->createTable();
-        $this->updateTable();
-
-
-        $slq = "      
-            -- First check if the table exists
-                        IF EXISTS(SELECT table_name 
-                                    FROM INFORMATION_SCHEMA.TABLES
-                                   WHERE table_schema = '{$this->pdo->getDbName()}'
-                                     AND table_name LIKE '{$this->getTableName()}')
-
-             -- If exists, retreive columns information from that table
-                        THEN
-                          
-                        ELSE
-                           create table
-
-                        END IF;
+        try {
+            $sql = "      
+                SELECT 
+                   table_name 
+                FROM 
+                   INFORMATION_SCHEMA.TABLES
+                WHERE 
+                   table_schema = :databaseName
+                AND 
+                   table_name = :table
                ";
+
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindParam(':table', $this->getTableName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->bindParam(':databaseName', $this->pdo->getDbName(), \Mgr\DB\PDO\MgrPDO::PARAM_STR, 150);
+            $statement->execute();
+
+            $result = $statement->fetchAll();
+
+            // if table found
+            if ($result)
+                $this->updateTable();
+            else
+                $this->createTable();
+
+            return true;
+        } catch (PDOException $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), $Exception->getCode());
+            return false;
+        }
     }
 
-    public function select() {
+    
+    /**
+     * @name select
+     * @description performs select from table
+     * 
+     * 
+     * @return void
+     */
+    public function select($fields=array(), $conditions= array(), $options= array()) {
         
+           
+           $sql = "SELECT ";
+           
+           // check if user choose fields
+           if(empty($fields))
+              $sql.= " * ";
+           else
+              $sql.=  implode(",", $fields);
+          
+           
+           $sql.=" FROM {$this->getTableName()}";
+           
+           
+           //building conditions
+           if(empty($conditions)){
+               
+           }
+           
+           
+           die(var_dump($sql));
     }
 
     public function selectFull() {

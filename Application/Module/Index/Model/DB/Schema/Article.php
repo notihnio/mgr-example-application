@@ -4,8 +4,8 @@ namespace Application\Module\Index\Model\DB\Schema;
 
 class Article extends \Mgr\DB\MySQL\Mapper\Mapper {
     
-    public function __construct(\Mgr\DB\PDO\MgrPDO $pdo, $lock=true) {
-        parent::__construct($pdo, $lock);
+    public function __construct(\Mgr\DB\PDO\MgrPDO $pdo, $lock, $recursive, $allowDeleteColums) {
+        parent::__construct($pdo, $lock, $recursive, $allowDeleteColums);
     }
 
     public $id = "#int NOT NULL AUTO_INCREMENT";
@@ -17,7 +17,7 @@ class Article extends \Mgr\DB\MySQL\Mapper\Mapper {
     public $date = "@date";
     
     public $category = "@int(11) >> \Application\Module\Index\Model\DB\Schema\Category->id >> ON UPDATE CASCADE ON DELETE RESTRICT";
-    
+       
     public $__engine = "INNODB";
 
 }

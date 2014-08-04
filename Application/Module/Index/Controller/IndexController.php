@@ -30,7 +30,9 @@ class IndexController extends \Mgr\Controller\Controller {
             die();
         }
         
-        $article = new \Application\Module\Index\Model\DB\Schema\Article($db, false);
+        $article = new \Application\Module\Index\Model\DB\Schema\Article($db, $lock=false, $recursive=true, $allowDeleteColums=true);
+        
+        $article->select(array("id","title"));
     }
 
 }
