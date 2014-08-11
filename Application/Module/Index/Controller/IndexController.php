@@ -32,7 +32,7 @@ class IndexController extends \Mgr\Controller\Controller {
         
         $article = new \Application\Module\Index\Model\DB\Schema\Article($db, $lock=false, $recursive=true, $allowDeleteColums=true);
         
-        $article->select(array("id","title"));
+        $article->select(array("fields"=>array("title"), "conditions" => array("id"=>1, "^||^title" =>"theBest", "id2"=>3 ,"^!^date" =>2, "^like^subtitle"=>"%thesub",  "^not like^subtitle2"=>"%thesub" , "^||!^subtitle3"=>"%thesub" , "options"=>array("limit"=>"10", "order by"=> "id asc"))));
     }
 
 }

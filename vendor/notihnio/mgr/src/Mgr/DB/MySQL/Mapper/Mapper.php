@@ -391,52 +391,5 @@ class Mapper {
         }
     }
 
-    
-    /**
-     * @name select
-     * @description performs select from table
-     * 
-     * 
-     * @return void
-     */
-    public function select($fields=array(), $conditions= array(), $options= array()) {
-        
-           
-           $sql = "SELECT ";
-           
-           // check if user choose fields
-           if(empty($fields))
-              $sql.= " * ";
-           else
-              $sql.=  implode(",", $fields);
-          
-           
-           $sql.=" FROM {$this->getTableName()}";
-           
-           
-           //building conditions
-           if(empty($conditions)){
-               
-           }
-           
-           
-           die(var_dump($sql));
-    }
-
-    public function selectFull() {
-        
-    }
-
-    public function update() {
-        
-    }
-
-    public function insert() {
-        
-    }
-
-    public function delete() {
-        
-    }
 
 }
