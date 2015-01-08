@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ca1ec302658e3c6f9368d669c1323449",
+    "hash": "a50862d3a374095a7977f664c5c6f407",
     "packages": [
         {
             "name": "notihnio/mgr",
-            "version": "1.4.2",
+            "version": "1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/notihnio/mgr.git",
-                "reference": "63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc"
+                "reference": "3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notihnio/mgr/zipball/63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc",
-                "reference": "63e974f3ae76dc917c347e4b7b0ea8a4f0ba0fbc",
+                "url": "https://api.github.com/repos/notihnio/mgr/zipball/3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2",
+                "reference": "3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2",
                 "shasum": ""
             },
             "require": {
@@ -54,23 +54,15 @@
                 "notis",
                 "php"
             ],
-            "time": "2014-05-30 07:52:50"
+            "time": "2014-09-06 08:39:13"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
 }
