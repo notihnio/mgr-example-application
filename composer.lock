@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a50862d3a374095a7977f664c5c6f407",
+    "hash": "10b9f489de3f09b657e4079b787054d2",
     "packages": [
         {
             "name": "notihnio/mgr",
-            "version": "1.5.4",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/notihnio/mgr.git",
-                "reference": "3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2"
+                "reference": "730788cf376bbbc0d54777bcbbc0b16adb2a2b4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notihnio/mgr/zipball/3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2",
-                "reference": "3168cd9d874ae48e286e5d5c88d49b9bf2aae1b2",
+                "url": "https://api.github.com/repos/notihnio/mgr/zipball/730788cf376bbbc0d54777bcbbc0b16adb2a2b4d",
+                "reference": "730788cf376bbbc0d54777bcbbc0b16adb2a2b4d",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 "notis",
                 "php"
             ],
-            "time": "2014-09-06 08:39:13"
+            "time": "2015-02-23 12:08:53"
         }
     ],
     "packages-dev": [],
