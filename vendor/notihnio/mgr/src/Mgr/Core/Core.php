@@ -70,7 +70,6 @@ class Core {
        
         //add global routes
         $this->routes = array_merge($this->routes, \Application\Config\Routes::routes());
-        die(var_dump($this->routes));
     }
 
     function dispach() {
@@ -99,6 +98,16 @@ class Core {
             $controller->params = isset($this->selectedRoute["params"]) ? $this->selectedRoute["params"] : array();
             //fire The selected action
             $selectedAction = ucfirst($this->selectedRoute["action"]) . "Action";
+
+            //check if module local bootstrap class exists
+            if(file_exists(ROOT.DIRECTORY_SEPARATOR."Application".DIRECTORY_SEPARATOR."Module".DIRECTORY_SEPARATOR.ucfirst($this->selectedRoute["module"]).DIRECTORY_SEPARATOR."Bootstrap.php")){ 
+                $bootstrapClass = $selectedRouteNamespace."\\Bootstrap";
+                // execute go 
+                \Mgr\Event\Event::trigger("module.preDispach");
+                $bootstrapClass::go();
+                \Mgr\Event\Event::trigger("module.postDispach");
+            }
+            
             $controller->$selectedAction();
         } catch (\Exception $error) {
             $error->getMessage();

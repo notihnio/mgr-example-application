@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-      "notihnio/mgr": "1.5.4"
+      "notihnio/mgr": "1.6.0"
     },
       "autoload": {
         "psr-0": {"Application\\": "."}

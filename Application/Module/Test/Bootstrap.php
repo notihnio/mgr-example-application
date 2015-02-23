@@ -10,7 +10,7 @@
 
  */
 
-namespace Application;
+namespace Application\Module\Test;
 
 /**
  * @name Bootrsrap 
@@ -21,7 +21,7 @@ class Bootstrap {
     
     public static function go() {
         
-
+        
     }
    
 }
