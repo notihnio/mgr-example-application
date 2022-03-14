@@ -35,7 +35,7 @@ Thumbs.db
 
 # Paths #
 #########
-nbproject/
-.idea
-vendor/
-composer.lock
+/nbproject/
+/.idea/
+/vendor/
+/composer.lock
