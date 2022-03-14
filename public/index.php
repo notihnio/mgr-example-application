@@ -7,20 +7,20 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 require_once ROOT . '/vendor/autoload.php'; // Autoload files using Composer autoload
 $configutation = Application\Config\Configurator::config();
 
-//bootstrapp
+//bootstrap
 \Application\Bootstrap::go();
 
-//triger init event
+//trigger init event
 Mgr\Event\Event::trigger("init");
 
 
 $core = new Mgr\Core\Core();
 
-//trigger predispach event
-Mgr\Event\Event::trigger("predispach");
+//trigger predispatch event
+Mgr\Event\Event::trigger("preDispatch");
 
-$core->dispach();
+$core->dispatch();
 
-//triger postdispach
-Mgr\Event\Event::trigger("postdispach");
+//triger postdispatch
+Mgr\Event\Event::trigger("preDispatch");
 ?>

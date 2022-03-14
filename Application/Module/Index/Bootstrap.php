@@ -25,21 +25,21 @@ class Bootstrap {
             
          });
          
-         \Mgr\Event\Event::bind('predispach', function($args = array()){
+         \Mgr\Event\Event::bind('preDispatch', function($args = array()){
              
              
          });
          
-         \Mgr\Event\Event::bind('postdispach', function($args = array()){
+         \Mgr\Event\Event::bind('postDispatch', function($args = array()){
            
 
          });
          
-         \Mgr\Event\Event::bind('router.preDispach', function($args = array()){
+         \Mgr\Event\Event::bind('router.preDispatch', function($args = array()){
                
          });
          
-         \Mgr\Event\Event::bind('router.postDispach', function($args = array()){
+         \Mgr\Event\Event::bind('router.postDispatch', function($args = array()){
               
              
          });
